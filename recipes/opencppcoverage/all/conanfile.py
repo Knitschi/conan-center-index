@@ -28,8 +28,7 @@ class OpenCppCoverage(ConanFile):
             raise ConanInvalidConfiguration("Currently the build folder can not be chosen freely.")
 
     def source(self):
-        self.run("git clone --recursive {0} {1}".format(self.repository, self.source_folder))
-        self.run("cd {0} && git checkout release-{1}".format(self.source_folder, self.version))
+        tools.get(**self.conan_data["sources"][self.version], strip_root=True, destination=self._source_subfolder)
 
     def build(self):
         self.run("{0}/BuildThirdPartyDependencies.bat".format(self.source_folder))
